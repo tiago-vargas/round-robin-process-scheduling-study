@@ -7,7 +7,6 @@ cpu_scheduling = []
 scheduling_starts = []
 scheduling_ends = []
 
-cpu_scheduling_pname = []
 colors = []
 
 
@@ -16,41 +15,36 @@ def scheduler(process_list):
     timeline = 0
 
     while not is_queue_empty(ready_queue):
-        process = ready_queue[0]
+        head_process = ready_queue[0]
 
         scheduling_starts.append(timeline)
 
-        save_process_state_in_scheduling(process)
+        save_process_state_in_scheduling(head_process)
 
-        ready_queue.remove(process)
-        if process.burst_time > quanta:
-            process.burst_time -= quanta
-            ready_queue.append(process)
+        ready_queue.remove(head_process)
+        if head_process.burst_time > quanta:
+            head_process.burst_time -= quanta
+            ready_queue.append(head_process)
             timeline += quanta
             scheduling_ends.append(timeline)
-        elif process.burst_time <= quanta:
-            timeline += process.burst_time
-            process.burst_time = 0
+        elif head_process.burst_time <= quanta:
+            timeline += head_process.burst_time
+            head_process.burst_time = 0
             scheduling_ends.append(timeline)
 
         timeline += context_switch_time
 
     set_all_times(process_list)
 
-    for process in cpu_scheduling:
-        cpu_scheduling_pname.append(f'P{process.pid}')
-        colors.append(process.color)
-
 
 def is_queue_empty(ready_queue):
-    if (len(ready_queue) == 0):
-        return True
-    return False
+    return True if len(ready_queue) == 0 else False
 
 
 def save_process_state_in_scheduling(process):
     actual_state = copy(process)
     cpu_scheduling.append(actual_state)
+    colors.append(process.color)
 
 
 def last_process_occurrence_in_scheduling(pid):
