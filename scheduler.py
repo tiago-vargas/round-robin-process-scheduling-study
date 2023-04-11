@@ -9,6 +9,8 @@ scheduling_ends = []
 
 colors = []
 
+finalized_processes = []
+
 
 def scheduler(process_list):
     ready_queue = process_list.copy()
@@ -32,10 +34,20 @@ def scheduler(process_list):
             head_process.burst_time = 0
             scheduling_ends.append(timeline)
 
+            finalized_processes.append((str(head_process), timeline))
+
         timeline += context_switch_time
 
     set_all_times(process_list)
 
+
+def throughput(timelimit):
+    thr_list = []
+    for tuple in finalized_processes:
+        finalization_time = tuple[1]
+        if finalization_time > timelimit: break
+        thr_list.append(tuple)
+    return thr_list
 
 def is_queue_empty(ready_queue):
     return True if len(ready_queue) == 0 else False
