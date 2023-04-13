@@ -8,8 +8,6 @@ cpu_scheduling = []
 scheduling_starts = []
 scheduling_ends = []
 
-colors = []
-
 finalized_processes = []
 
 
@@ -69,7 +67,6 @@ def is_queue_empty(ready_queue):
 def save_process_state_in_scheduling(process):
     actual_state = copy(process)
     cpu_scheduling.append(actual_state)
-    colors.append(process.color)
 
 
 def last_process_occurrence_in_scheduling(pid):

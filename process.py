@@ -1,5 +1,3 @@
-from cgenerator import color
-
 class Process:
     def __init__(self, pid, burst_time):
         self.initial_burst_time = burst_time
@@ -10,14 +8,13 @@ class Process:
         self.waiting_time = 0
         self.response_time = 0
         self.return_time = 0
-        self.color = color()
 
     def __str__(self):
         return f'P{self.pid}'
 
     def set_completion_time(self, ct):
         self.completion_time = ct
-        
+
     def set_turnaround_time(self, tt):
         self.turnaround_time = tt
 
