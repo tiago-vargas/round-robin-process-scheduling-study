@@ -1,4 +1,5 @@
 from copy import copy
+from math import ceil
 
 quanta = 3
 context_switch_time = 1
@@ -41,13 +42,25 @@ def scheduler(process_list):
     set_all_times(process_list)
 
 
-def throughput(timelimit):
-    thr_list = []
+def throughput():
+    total_timeline = scheduling_ends[-1]
+    middle_timeline =  ceil(total_timeline/2)
+    
+    first_half = []
+    second_half = []
+    
     for tuple in finalized_processes:
+        
+        process = tuple[0]
         finalization_time = tuple[1]
-        if finalization_time > timelimit: break
-        thr_list.append(tuple)
-    return thr_list
+        
+        if finalization_time <= middle_timeline:
+            first_half.append(process)
+        else:
+            second_half.append(process)
+
+    return [first_half, second_half]
+
 
 def is_queue_empty(ready_queue):
     return True if len(ready_queue) == 0 else False
