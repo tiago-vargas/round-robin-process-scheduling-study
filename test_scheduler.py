@@ -24,3 +24,15 @@ class TestRoundRobinScheduler:
             scheduler.initialize()
 
             assert scheduler.current_process == process_1
+
+        def test_switching_context_to_the_next_in_queue(self):
+            scheduler = RoundRobinScheduler(quantum=20, context_switching_duration=1)
+            process_1 = Process(burst_duration=50)
+            process_2 = Process(burst_duration=50)
+            scheduler.queue = [process_1, process_2]
+            scheduler.initialize()
+            scheduler.execute_current_process()  # Executes `process_1`
+
+            scheduler.switch_context()
+
+            assert scheduler.current_process == process_2

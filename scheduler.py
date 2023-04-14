@@ -9,3 +9,9 @@ class RoundRobinScheduler:
 
     def initialize(self):
         self.current_process = self.queue[0]
+
+    def execute_current_process(self):
+        pass
+
+    def switch_context(self):
+        self.current_process = self.queue[1]
