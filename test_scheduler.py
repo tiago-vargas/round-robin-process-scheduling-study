@@ -49,3 +49,16 @@ class TestRoundRobinScheduler:
             scheduler.switch_context()
 
             assert scheduler.clock == time + scheduler.context_switching_duration
+
+        def test_moving_executed_process_to_the_end_of_the_queue(self):
+            scheduler = RoundRobinScheduler(quantum=20, context_switching_duration=1)
+            process_1 = Process(burst_duration=50)
+            process_2 = Process(burst_duration=50)
+            process_3 = Process(burst_duration=50)
+            scheduler.queue = [process_1, process_2, process_3]
+            scheduler.initialize()
+            scheduler.execute_current_process()  # Executes `process_1`
+
+            scheduler.switch_context()
+
+            assert scheduler.queue == [process_2, process_3, process_1]

@@ -15,5 +15,9 @@ class RoundRobinScheduler:
         pass
 
     def switch_context(self):
+        process_just_executed = self.current_process
+
         self.current_process = self.queue[1]
+        self.queue = self.queue[1:] + [process_just_executed]
+
         self.clock += self.context_switching_duration
