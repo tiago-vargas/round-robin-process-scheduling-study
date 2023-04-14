@@ -41,3 +41,11 @@ class RoundRobinScheduler:
         self.queue = self.queue[1:] + [process_just_executed]
 
         self.clock += self.context_switching_duration
+
+    def execute_queue_once(self):
+        for _ in self.queue:
+            self.execute_current_process()
+            self.switch_context()
+
+        new_queue = [p for p in self.queue if p.is_finished is False]
+        self.queue = new_queue

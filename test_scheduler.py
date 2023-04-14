@@ -75,6 +75,18 @@ class TestRoundRobinScheduler:
 
             assert scheduler.clock == 7 + scheduler.context_switching_duration
 
+        def test_removing_completed_processes_from_queue_after_a_cycling_it(self):
+            scheduler = RoundRobinScheduler(quantum=20, context_switching_duration=1)
+            process_1 = Process(burst_duration=50)
+            process_2 = Process(burst_duration=2)
+            process_3 = Process(burst_duration=50)
+            scheduler.queue = [process_1, process_2, process_3]
+            scheduler.initialize()
+
+            scheduler.execute_queue_once()
+
+            assert scheduler.queue == [process_1, process_3]
+
     class TestTrackingProcessProgress:
         def test_decreasing_process_completion_time_as_it_executes(self):
             scheduler = RoundRobinScheduler(quantum=20, context_switching_duration=1)
