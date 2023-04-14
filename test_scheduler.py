@@ -37,19 +37,6 @@ class TestRoundRobinScheduler:
 
             assert scheduler.current_process == process_2
 
-        def test_advancing_clock_as_context_switches(self):
-            scheduler = RoundRobinScheduler(quantum=20, context_switching_duration=1)
-            process_1 = Process(burst_duration=50)
-            dummy_process = Process(burst_duration=50)
-            scheduler.queue = [process_1, dummy_process]
-            scheduler.initialize()
-            scheduler.execute_current_process()
-            time = scheduler.clock
-
-            scheduler.switch_context()
-
-            assert scheduler.clock == time + scheduler.context_switching_duration
-
         def test_moving_executed_process_to_the_end_of_the_queue(self):
             scheduler = RoundRobinScheduler(quantum=20, context_switching_duration=1)
             process_1 = Process(burst_duration=50)
@@ -62,6 +49,19 @@ class TestRoundRobinScheduler:
             scheduler.switch_context()
 
             assert scheduler.queue == [process_2, process_3, process_1]
+
+        def test_advancing_clock_as_context_switches(self):
+            scheduler = RoundRobinScheduler(quantum=20, context_switching_duration=1)
+            process_1 = Process(burst_duration=50)
+            dummy_process = Process(burst_duration=50)
+            scheduler.queue = [process_1, dummy_process]
+            scheduler.initialize()
+            scheduler.execute_current_process()
+            time = scheduler.clock
+
+            scheduler.switch_context()
+
+            assert scheduler.clock == time + scheduler.context_switching_duration
 
         def test_switching_context_sooner_as_process_finishes_before_its_quantum_ends(self):
             scheduler = RoundRobinScheduler(quantum=20, context_switching_duration=1)
