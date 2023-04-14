@@ -18,8 +18,8 @@ class TestRoundRobinScheduler:
         def test_first_process_in_queue_to_be_the_one_to_execute_now(self):
             scheduler = RoundRobinScheduler(quantum=20, context_switching_duration=1)
             process_1 = Process(burst_duration=50)
-            process_2 = Process(burst_duration=50)
-            scheduler.queue = [process_1, process_2]
+            dummy_process = Process(burst_duration=50)
+            scheduler.queue = [process_1, dummy_process]
 
             scheduler.initialize()
 
@@ -40,8 +40,8 @@ class TestRoundRobinScheduler:
         def test_advancing_clock_as_context_switches(self):
             scheduler = RoundRobinScheduler(quantum=20, context_switching_duration=1)
             process_1 = Process(burst_duration=50)
-            process_2 = Process(burst_duration=50)
-            scheduler.queue = [process_1, process_2]
+            dummy_process = Process(burst_duration=50)
+            scheduler.queue = [process_1, dummy_process]
             scheduler.initialize()
             scheduler.execute_current_process()
             time = scheduler.clock
