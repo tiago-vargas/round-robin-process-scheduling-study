@@ -17,8 +17,14 @@ class RoundRobinScheduler:
         self.current_process = self.queue[0]
 
     def execute_current_process(self):
+        self._update_clock()
         self._decrease_process_remaining_duration()
-        self.clock += self.quantum
+
+    def _update_clock(self):
+        if self.current_process.remaining_duration > self.quantum:
+            self.clock += self.quantum
+        else:
+            self.clock += self.current_process.remaining_duration
 
     def _decrease_process_remaining_duration(self):
         current_process = self.current_process

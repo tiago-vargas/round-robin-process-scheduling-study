@@ -63,6 +63,18 @@ class TestRoundRobinScheduler:
 
             assert scheduler.queue == [process_2, process_3, process_1]
 
+        def test_switching_context_sooner_as_process_finishes_before_its_quantum_ends(self):
+            scheduler = RoundRobinScheduler(quantum=20, context_switching_duration=1)
+            process_1 = Process(burst_duration=7)
+            dummy_process = Process(burst_duration=50)
+            scheduler.queue = [process_1, dummy_process]
+            scheduler.initialize()
+            scheduler.execute_current_process()  # Executes `process_1`, which finishes
+
+            scheduler.switch_context()
+
+            assert scheduler.clock == 7 + scheduler.context_switching_duration
+
     class TestTrackingProcessProgress:
         def test_decreasing_process_completion_time_as_it_executes(self):
             scheduler = RoundRobinScheduler(quantum=20, context_switching_duration=1)
