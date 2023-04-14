@@ -1,10 +1,14 @@
+# For type annotations
+from process import Process
+
+
 class RoundRobinScheduler:
     def __init__(self, quantum: int, context_switching_duration: int):
         self.context_switching_duration = context_switching_duration
         self.clock = 0
         self.quantum = quantum
-        self.queue = None
-        self.current_process = None
+        self.queue: list[Process] = []
+        self.current_process: Process = None
 
     def simulate_scheduling(self):
         self.clock += 5
@@ -17,10 +21,12 @@ class RoundRobinScheduler:
         self.clock += self.quantum
 
     def _decrease_process_remaining_duration(self):
-        if self.current_process.remaining_duration < self.quantum:
-            self.current_process.remaining_duration = 0
+        current_process = self.current_process
+        if current_process.remaining_duration > self.quantum:
+            current_process.remaining_duration -= self.quantum
         else:
-            self.current_process.remaining_duration -= self.quantum
+            current_process.remaining_duration = 0
+            current_process.is_finished = True
 
     def switch_context(self):
         process_just_executed = self.current_process

@@ -85,3 +85,13 @@ class TestRoundRobinScheduler:
             scheduler.execute_current_process()  # Executes `process_1` completely
 
             assert process_1.remaining_duration == 0
+
+        def test_marking_process_as_finished(self):
+            scheduler = RoundRobinScheduler(quantum=20, context_switching_duration=1)
+            process = Process(burst_duration=20)
+            scheduler.queue = [process]
+            scheduler.initialize()
+
+            scheduler.execute_current_process()  # Executes `process` completely
+
+            assert process.is_finished is True
