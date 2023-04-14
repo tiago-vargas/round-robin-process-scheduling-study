@@ -1,3 +1,3 @@
 class Process:
     def __init__(self, burst_duration: int):
-        pass
+        self.remaining_duration = burst_duration
