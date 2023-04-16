@@ -3,8 +3,8 @@ from process import Process
 
 
 class RoundRobinScheduler:
-    def __init__(self, quantum: int, context_switching_duration: int):
-        self.context_switching_duration = context_switching_duration
+    def __init__(self, quantum: int, context_switch_duration: int):
+        self.context_switching_duration = context_switch_duration
         self.clock = 0
         self.quantum = quantum
         self.queue: list[Process] = []
