@@ -32,7 +32,6 @@ class RoundRobinScheduler:
             current_process.remaining_duration -= self.quantum
         else:
             current_process.remaining_duration = 0
-            current_process.is_finished = True
 
     def switch_context(self):
         process_just_executed = self.current_process
