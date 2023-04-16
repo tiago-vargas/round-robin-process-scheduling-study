@@ -8,13 +8,13 @@ class RoundRobinScheduler:
         self.clock = 0
         self.quantum = quantum
         self.queue: list[Process] = []
-        self.current_process: Process = None
+
+    @property
+    def current_process(self):
+        return self.queue[0]
 
     def simulate_scheduling(self):
         self.clock += 5
-
-    def initialize(self):
-        self.current_process = self.queue[0]
 
     def execute_current_process(self):
         self._update_clock()
@@ -36,10 +36,7 @@ class RoundRobinScheduler:
 
     def switch_context(self):
         process_just_executed = self.current_process
-
-        self.current_process = self.queue[1]
         self.queue = self.queue[1:] + [process_just_executed]
-
         self.clock += self.context_switching_duration
 
     def execute_queue_once(self):

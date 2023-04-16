@@ -19,9 +19,8 @@ class TestRoundRobinScheduler:
             scheduler = RoundRobinScheduler(quantum=20, context_switch_duration=1)
             process_1 = Process(burst_duration=50)
             dummy_process = Process(burst_duration=50)
-            scheduler.queue = [process_1, dummy_process]
 
-            scheduler.initialize()
+            scheduler.queue = [process_1, dummy_process]
 
             assert scheduler.current_process == process_1
 
@@ -30,7 +29,6 @@ class TestRoundRobinScheduler:
             process_1 = Process(burst_duration=50)
             process_2 = Process(burst_duration=50)
             scheduler.queue = [process_1, process_2]
-            scheduler.initialize()
             scheduler.execute_current_process()  # Executes `process_1`
 
             scheduler.switch_context()
@@ -43,7 +41,6 @@ class TestRoundRobinScheduler:
             process_2 = Process(burst_duration=50)
             process_3 = Process(burst_duration=50)
             scheduler.queue = [process_1, process_2, process_3]
-            scheduler.initialize()
             scheduler.execute_current_process()  # Executes `process_1`
 
             scheduler.switch_context()
@@ -55,7 +52,6 @@ class TestRoundRobinScheduler:
             process_1 = Process(burst_duration=50)
             dummy_process = Process(burst_duration=50)
             scheduler.queue = [process_1, dummy_process]
-            scheduler.initialize()
             scheduler.execute_current_process()
             time = scheduler.clock
 
@@ -68,7 +64,6 @@ class TestRoundRobinScheduler:
             process_1 = Process(burst_duration=7)
             dummy_process = Process(burst_duration=50)
             scheduler.queue = [process_1, dummy_process]
-            scheduler.initialize()
             scheduler.execute_current_process()  # Executes `process_1`, which finishes
 
             scheduler.switch_context()
@@ -81,7 +76,6 @@ class TestRoundRobinScheduler:
             process_2 = Process(burst_duration=2)
             process_3 = Process(burst_duration=50)
             scheduler.queue = [process_1, process_2, process_3]
-            scheduler.initialize()
 
             scheduler.execute_queue_once()
 
@@ -93,7 +87,6 @@ class TestRoundRobinScheduler:
             process_1 = Process(burst_duration=50)
             dummy_process = Process(burst_duration=50)
             scheduler.queue = [process_1, dummy_process]
-            scheduler.initialize()
 
             scheduler.execute_current_process()  # Executes `process_1`
 
@@ -104,7 +97,6 @@ class TestRoundRobinScheduler:
             process_1 = Process(burst_duration=5)
             dummy_process = Process(burst_duration=50)
             scheduler.queue = [process_1, dummy_process]
-            scheduler.initialize()
 
             scheduler.execute_current_process()  # Executes `process_1` completely
 
@@ -114,7 +106,6 @@ class TestRoundRobinScheduler:
             scheduler = RoundRobinScheduler(quantum=20, context_switch_duration=1)
             process = Process(burst_duration=20)
             scheduler.queue = [process]
-            scheduler.initialize()
 
             scheduler.execute_current_process()  # Executes `process` completely
 
