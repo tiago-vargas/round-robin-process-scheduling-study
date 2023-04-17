@@ -4,6 +4,16 @@ from process import Process
 
 class TestRoundRobinScheduler:
     class TestWithOnlyOneProcess:
+        # def test_not_switching_context_with_single_process(self):
+        #     scheduler = RoundRobinScheduler(quantum=20, context_switch_duration=1)
+        #     process = Process(burst_duration=40)
+        #     scheduler.queue = [process]
+
+        #     # scheduler.execute_current_process()
+        #     scheduler.execute_queue_once()
+
+        #     assert scheduler.clock == 20 + 20
+
         class TestProcessEndingInSingleQuantum:
             def test_clock_advancing(self):
                 scheduler = RoundRobinScheduler(quantum=20, context_switch_duration=1)
@@ -76,10 +86,21 @@ class TestRoundRobinScheduler:
             process_2 = Process(burst_duration=2)
             process_3 = Process(burst_duration=50)
             scheduler.queue = [process_1, process_2, process_3]
+            # [process_1, process_2, process_3, ]
 
             scheduler.execute_queue_once()
 
             assert scheduler.queue == [process_1, process_3]
+
+        # def test_not_switching_context_after_executing_last_process(self):
+        #     scheduler = RoundRobinScheduler(quantum=20, context_switch_duration=1)
+        #     process_1 = Process(burst_duration=50)
+        #     dummy_process = Process(burst_duration=30)
+        #     scheduler.queue = [process_1, dummy_process]
+
+        #     scheduler.execute_queue_once()
+
+        #     assert scheduler.clock == 20 + 1 + 20
 
     class TestTrackingProcessProgress:
         def test_decreasing_process_completion_time_as_it_executes(self):

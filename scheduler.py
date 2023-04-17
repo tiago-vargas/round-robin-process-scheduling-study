@@ -39,6 +39,14 @@ class RoundRobinScheduler:
         self.clock += self.context_switching_duration
 
     def execute_queue_once(self):
+        # for index, process in enumerate(self.queue):
+        #     if index == len(self.queue) - 1:
+        #         self.execute_current_process()
+        #     else:
+        #         self.execute_current_process()
+        #         self.switch_context()
+
+
         for _ in self.queue:
             self.execute_current_process()
             self.switch_context()
